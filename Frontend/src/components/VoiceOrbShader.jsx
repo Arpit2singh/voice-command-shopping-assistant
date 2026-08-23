@@ -14,6 +14,15 @@ export default function VoiceOrbShader({ isListening, isProcessing, size = 96 })
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    let animationFrameId;
+    let glCleanup = null;
+
+    // Defer WebGL initialization until visible
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || glCleanup) return;
+        io.disconnect();
+
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     if (!gl) return;
 
@@ -126,7 +135,6 @@ export default function VoiceOrbShader({ isListening, isProcessing, size = 96 })
     const uListeningLoc  = gl.getUniformLocation(program, 'u_listening');
     const uProcessingLoc = gl.getUniformLocation(program, 'u_processing');
 
-    let animationFrameId;
     const startTime = performance.now();
 
     const render = (time) => {
@@ -147,12 +155,21 @@ export default function VoiceOrbShader({ isListening, isProcessing, size = 96 })
 
     animationFrameId = requestAnimationFrame(render);
 
-    return () => {
+    glCleanup = () => {
       cancelAnimationFrame(animationFrameId);
       gl.deleteProgram(program);
       gl.deleteShader(vertexShader);
       gl.deleteShader(fragmentShader);
       gl.deleteBuffer(positionBuffer);
+    };
+      },
+      { rootMargin: '100px' }
+    );
+    io.observe(canvas);
+
+    return () => {
+      io.disconnect();
+      if (glCleanup) glCleanup();
     };
   }, [isListening, isProcessing]);
 
@@ -195,6 +212,7 @@ export default function VoiceOrbShader({ isListening, isProcessing, size = 96 })
           borderRadius: '50%',
           display: 'block',
           cursor: 'pointer',
+          background: 'radial-gradient(circle, rgba(122,58,237,0.7) 0%, rgba(217,70,239,0.5) 60%, rgba(139,92,246,0.3) 100%)',
         }}
       />
     </div>

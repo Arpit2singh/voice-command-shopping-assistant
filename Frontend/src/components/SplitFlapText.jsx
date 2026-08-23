@@ -222,7 +222,8 @@ const SplitFlapText = ({
     <div
       className={`split-flap-text ${className}`.trim()}
       style={componentStyle}
-      role="text"
+      role="status"
+      aria-live="polite"
       aria-label={settledText || undefined}
       {...props}
     >

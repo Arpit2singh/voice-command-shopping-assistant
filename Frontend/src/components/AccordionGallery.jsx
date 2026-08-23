@@ -4,19 +4,19 @@ import './AccordionGallery.css';
 
 const DEFAULT_ITEMS = [
   {
-    image: '/apples.png',
+    image: '/apples.webp',
     label: 'Fresh Crisp Apples',
     subtitle: 'Say "Add 2 kg apples"',
     command: 'add 2 kg apples'
   },
   {
-    image: '/milk.png',
+    image: '/milk.webp',
     label: 'Pure Fresh Milk',
     subtitle: 'Say "Doodh add karo"',
     command: 'doodh add karo'
   },
   {
-    image: '/tomatoes.png',
+    image: '/tomatoes.webp',
     label: 'Organic Tomatoes',
     subtitle: 'Say "Add 1 kg tomatoes"',
     command: 'add 1 kg tomatoes'
@@ -227,7 +227,7 @@ const AccordionGallery = ({
           >
             <span className="ag-panel__frame">
               <span className="ag-panel__media" ref={el => (mediaRefs.current[i] = el)}>
-                <img src={item.image} alt={item.alt || item.label || ''} draggable="false" />
+                <img src={item.image} alt={item.alt || item.label || ''} draggable="false" loading="lazy" decoding="async" width="400" height="400" />
               </span>
               <span className="ag-panel__overlay" aria-hidden="true" />
             </span>

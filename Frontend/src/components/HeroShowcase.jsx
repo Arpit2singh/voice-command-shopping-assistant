@@ -15,25 +15,25 @@ import SplitFlapText from './SplitFlapText';
 
 const GALLERY_ITEMS = [
   {
-    image: '/apples.png',
+    image: '/apples.webp',
     label: 'Organic Apples',
     command: 'add 2 kg apples',
     alt: 'Fresh organic apples'
   },
   {
-    image: '/milk.png',
+    image: '/milk.webp',
     label: 'Fresh Farm Milk',
     command: 'doodh add karo',
     alt: 'Pure dairy milk'
   },
   {
-    image: '/tomatoes.png',
+    image: '/tomatoes.webp',
     label: 'Juicy Tomatoes',
     command: 'add 1 kg tomatoes',
     alt: 'Fresh farm tomatoes'
   },
   {
-    image: '/water.jpg',
+    image: '/water.webp',
     label: 'Sparkling Water',
     command: 'add 2 bottles of water',
     alt: 'Fresh sparkling water bottles'

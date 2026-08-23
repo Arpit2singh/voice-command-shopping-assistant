@@ -9,9 +9,9 @@ const hexToRgb = hex => {
 };
 
 const detailToSteps = detail => {
-  if (detail === 'low') return 30.0;
-  if (detail === 'high') return 80.0;
-  return 50.0;  // medium — was 70, reduced for perf
+  if (detail === 'low') return 24.0;
+  if (detail === 'high') return 60.0;
+  return 40.0;  // medium
 };
 
 const vertex = `#version 300 es
@@ -158,6 +158,15 @@ const GradientWaves = ({
     const container = containerRef.current;
     if (!container) return;
 
+    let cleanupFn = null;
+
+    // Defer WebGL initialization until the element is near the viewport
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || cleanupFn) return;
+        io.disconnect();
+
+        // --- Begin WebGL init (deferred) ---
     const renderer = new Renderer({
       webgl: 2,
       alpha: true,
@@ -265,14 +274,14 @@ const GradientWaves = ({
       }
     };
 
-    const io = new IntersectionObserver(
+    const visIo = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
         isVisible ? tryStart() : tryStop();
       },
       { threshold: 0 }
     );
-    io.observe(container);
+    visIo.observe(container);
 
     const onVisibility = () => {
       isPageVisible = !document.hidden;
@@ -282,10 +291,10 @@ const GradientWaves = ({
 
     tryStart();
 
-    return () => {
+    cleanupFn = () => {
       tryStop();
       ro.disconnect();
-      io.disconnect();
+      visIo.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
       canvas.removeEventListener('pointermove', onPointerMove);
       canvas.removeEventListener('pointerleave', onPointerLeave);
@@ -294,6 +303,16 @@ const GradientWaves = ({
         container.removeChild(canvas);
       } catch { }
       gl.getExtension('WEBGL_lose_context')?.loseContext();
+    };
+        // --- End WebGL init ---
+      },
+      { rootMargin: '200px' }
+    );
+    io.observe(container);
+
+    return () => {
+      io.disconnect();
+      if (cleanupFn) cleanupFn();
     };
   }, []);
 

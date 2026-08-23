@@ -13,7 +13,7 @@
  *   - Framer Motion page & micro-interaction animations
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, Suspense, lazy } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mic, Keyboard, Home, List as ListIcon, Sparkles } from 'lucide-react';
@@ -24,14 +24,16 @@ import { parseVoiceIntent } from './api/apiClient';
 
 import MicButton          from './components/MicButton';
 import ShoppingList       from './components/ShoppingList';
-import SuggestionPanel    from './components/SuggestionPanel';
-import SearchBar          from './components/SearchBar';
 import ConfirmChip        from './components/ConfirmChip';
 import ErrorBanner        from './components/ErrorBanner';
 import ParallaxBackground from './components/ParallaxBackground';
 import TiltCard           from './components/TiltCard';
-import HeroShowcase       from './components/HeroShowcase';
 import BubbleMenu         from './components/BubbleMenu';
+
+// Lazy-loaded heavy components for code splitting
+const HeroShowcase    = lazy(() => import('./components/HeroShowcase'));
+const SuggestionPanel = lazy(() => import('./components/SuggestionPanel'));
+const SearchBar       = lazy(() => import('./components/SearchBar'));
 
 const USER_ID = 'demo-user-001';
 
@@ -333,6 +335,7 @@ export default function App() {
             )}
           </AnimatePresence>
 
+          <Suspense fallback={<div style={{ textAlign: 'center', padding: 'var(--space-xl)', color: 'var(--clr-text-dim)' }}>Loading...</div>}>
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               <Route path="/" element={
@@ -473,6 +476,7 @@ export default function App() {
               } />
             </Routes>
           </AnimatePresence>
+          </Suspense>
 
           {/* API Error Alert */}
           <AnimatePresence>
