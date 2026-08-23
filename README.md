@@ -2,6 +2,9 @@
 
 > A production-grade MERN-stack voice shopping list manager with smart recommendations, multi-parameter catalog search, and hybrid AI/regex natural language understanding.
 
+🌐 **Live Demo**: [https://voice-command-shopping-assistant-woad.vercel.app/](https://voice-command-shopping-assistant-woad.vercel.app/)
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-success?style=flat-square&logo=vercel)](https://voice-command-shopping-assistant-woad.vercel.app/)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/atlas)
@@ -58,7 +61,8 @@ Backend (Node.js + Express 4)
   ├── /api/nlp/parse     ───> Groq Cloud AI (LLaMA-3 structured intent parsing)
   ├── /api/list          ───> MongoDB (Active shopping list items & categories)
   ├── /api/search        ───> MongoDB (Multi-parameter catalog search & regex safety)
-  └── /api/suggestions   ───> MongoDB (Purchase history & seasonal recommendation engine)
+  ├── /api/suggestions   ───> MongoDB (Purchase history & seasonal recommendation engine)
+  └── /health            ───> Server uptime & MongoDB connection status
 ```
 
 ---
