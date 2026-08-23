@@ -33,7 +33,20 @@ app.use(cors({
 app.use(express.json());
 
 // ─── Health Check ────────────────────────────────────────────────────────────
-app.get('/health', (_req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
+const healthHandler = (_req, res) => {
+  const dbStateMap = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
+  const dbStatus = dbStateMap[mongoose.connection.readyState] || 'unknown';
+  
+  res.json({
+    status: 'ok',
+    uptime: process.uptime(),
+    database: dbStatus,
+    timestamp: new Date().toISOString(),
+  });
+};
+
+app.get('/health', healthHandler);
+app.get('/api/health', healthHandler);
 
 // ─── Routes ──────────────────────────────────────────────────────────────────
 app.use('/api/list',        listRoutes);
