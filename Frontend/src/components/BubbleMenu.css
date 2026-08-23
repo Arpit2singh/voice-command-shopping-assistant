@@ -1,0 +1,244 @@
+/* ── BubbleMenu — Dark-theme overrides + base layout ─────────── */
+
+.bubble-menu {
+  left: 0;
+  right: 0;
+  top: 1.25em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 2em;
+  pointer-events: none;
+  z-index: 200;
+}
+
+.bubble-menu.fixed  { position: fixed; }
+.bubble-menu.absolute { position: absolute; }
+
+/* ── Bubble base ───────────────────────────────────────────────── */
+.bubble-menu .bubble {
+  --bubble-size: 48px;
+  width: var(--bubble-size);
+  height: var(--bubble-size);
+  border-radius: 50%;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255,255,255,0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.bubble-menu .logo-bubble,
+.bubble-menu .toggle-bubble {
+  will-change: transform;
+}
+
+/* ── Logo pill ─────────────────────────────────────────────────── */
+.bubble-menu .logo-bubble {
+  width: auto;
+  min-height: var(--bubble-size);
+  height: var(--bubble-size);
+  padding: 0 20px;
+  border-radius: calc(var(--bubble-size) / 2);
+  gap: 10px;
+}
+
+.bubble-menu .logo-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 100%;
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.bubble-menu .bubble-logo {
+  max-height: 60%;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ── Hamburger toggle ──────────────────────────────────────────── */
+.bubble-menu .menu-btn {
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform 0.2s var(--ease-spring, ease);
+}
+
+.bubble-menu .menu-btn:hover {
+  transform: scale(1.08);
+}
+
+.bubble-menu .menu-line {
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  display: block;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+
+.bubble-menu .menu-line + .menu-line { margin-top: 6px; }
+
+.bubble-menu .menu-btn.open .menu-line:first-child {
+  transform: translateY(4px) rotate(45deg);
+}
+.bubble-menu .menu-btn.open .menu-line:last-child {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
+@media (min-width: 768px) {
+  .bubble-menu .bubble { --bubble-size: 54px; }
+}
+
+/* ── Overlay / pill list ───────────────────────────────────────── */
+.bubble-menu-items {
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 199;
+  background: rgba(11, 7, 22, 0.75);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.bubble-menu-items.fixed    { position: fixed; }
+.bubble-menu-items.absolute { position: absolute; }
+
+/* ── Pill list ─────────────────────────────────────────────────── */
+.bubble-menu-items .pill-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  row-gap: 6px;
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: auto;
+  justify-content: stretch;
+}
+
+.bubble-menu-items .pill-list .pill-col {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex: 0 0 calc(100% / 3);
+  box-sizing: border-box;
+}
+
+/* Centre 4th item when 5 total */
+.bubble-menu-items .pill-list .pill-col:nth-child(4):nth-last-child(2) {
+  margin-left: calc(100% / 6);
+}
+.bubble-menu-items .pill-list .pill-col:nth-child(4):last-child {
+  margin-left: calc(100% / 3);
+}
+
+/* ── Pill link / button ────────────────────────────────────────── */
+.bubble-menu-items .pill-link {
+  --pill-bg:     rgba(18, 13, 34, 0.85);
+  --pill-color:  #e2d9f3;
+  --pill-border: rgba(168, 85, 247, 0.2);
+  --item-rot:    0deg;
+  --pill-min-h:  140px;
+  --hover-bg:    #8b5cf6;
+  --hover-color: #ffffff;
+
+  width: 100%;
+  min-height: var(--pill-min-h);
+  padding: clamp(1.25rem, 2.5vw, 6rem) 0;
+  font-size: clamp(1.4rem, 3.5vw, 3.8rem);
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 0;
+  border-radius: 999px;
+  background: var(--pill-bg);
+  color: var(--pill-color);
+  border: 1px solid var(--pill-border);
+  text-decoration: none;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.28s ease, color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+  will-change: transform;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 10px; /* GSAP scales from 0 */
+}
+
+@media (min-width: 900px) {
+  .bubble-menu-items .pill-link {
+    transform: rotate(var(--item-rot));
+  }
+  .bubble-menu-items .pill-link:hover {
+    transform: rotate(var(--item-rot)) scale(1.05);
+    background: var(--hover-bg);
+    color: var(--hover-color);
+    border-color: transparent;
+    box-shadow: 0 8px 40px rgba(139, 92, 246, 0.45);
+  }
+  .bubble-menu-items .pill-link:active {
+    transform: rotate(var(--item-rot)) scale(0.96);
+  }
+}
+
+.bubble-menu-items .pill-link .pill-label {
+  display: inline-block;
+  will-change: transform, opacity;
+  height: 1.2em;
+  line-height: 1.2;
+  pointer-events: none;
+}
+
+/* ── Mobile ────────────────────────────────────────────────────── */
+@media (max-width: 899px) {
+  .bubble-menu-items {
+    align-items: flex-start;
+    padding-top: 110px;
+  }
+  .bubble-menu-items .pill-list {
+    row-gap: 14px;
+  }
+  .bubble-menu-items .pill-list .pill-col {
+    flex: 0 0 100%;
+    margin-left: 0 !important;
+  }
+  .bubble-menu-items .pill-link {
+    font-size: clamp(1.1rem, 3vw, 4rem);
+    padding: clamp(0.9rem, 2vw, 2rem) 0;
+    min-height: 72px;
+  }
+  .bubble-menu-items .pill-link:hover {
+    transform: scale(1.04);
+    background: var(--hover-bg);
+    color: var(--hover-color);
+    border-color: transparent;
+  }
+  .bubble-menu-items .pill-link:active {
+    transform: scale(0.96);
+  }
+}
